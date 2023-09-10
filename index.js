@@ -13,6 +13,8 @@ const app = express();
 
 app.post("/", middleware(config), (req, res) => {
   console.log(req.body);
+  console.log(req.body.events);
+  console.log(req.body.events[0].message.text);
   Promise.all(req.body.events.map(handleEvent)).then((result) =>
     res.json(result)
   );
