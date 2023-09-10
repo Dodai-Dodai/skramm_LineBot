@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from "body-parser";
 import { Client, middleware } from "@line/bot-sdk";
 
 const config = {
@@ -8,19 +9,20 @@ const config = {
   const client = new Client(config);
   const PORT = process.env.PORT || 3000;
 const app = express();
+app.use(bodyParser.json());
 
 
-// postされたときに実行される　handleEvent関数を実行
 app.post("/", middleware(config), (req, res) => {
+  console.log(req.body);
   Promise.all(req.body.events.map(handleEvent)).then((result) =>
     res.json(result)
   );
 });
 
-// サーバーを起動
+
 app.listen(PORT);
 
-// イベントを処理する関数
+
 function handleEvent(event) {
     if (event.type !== "message" || event.message.type !== "text") {
       return Promise.resolve(null);
