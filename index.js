@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import { Client, middleware } from "@line/bot-sdk";
 
 const config = {
