@@ -31,6 +31,11 @@ app.listen(PORT);
 function handleEvent(event) {
     if (event.type !== "message" || event.message.type !== "text") {
       return Promise.resolve(null);
+    }else if(event.type == "beacon"){
+      return client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "ビーコンを検知しました",
+      });
     }
     return client.replyMessage(event.replyToken, {
       type: "text",
