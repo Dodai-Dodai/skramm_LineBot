@@ -1,6 +1,8 @@
 import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
 
+const beaconMsg = "ビーコンを検知しました"
+
 const config = {
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
@@ -36,7 +38,7 @@ function handleEvent(event) {
     }else if(event.type == "beacon"){
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコンを検知しました",
+        text: beaconMsg,
       });
     }
   }
