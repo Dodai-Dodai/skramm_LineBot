@@ -14,6 +14,8 @@ const app = express();
 
 
 app.post("/", middleware(config), (req, res) => {
+  console.log("=============req=============");
+  console.log(req);
   console.log("=============req.body=============");
   console.log(req.body);
   console.log("=============req.body.events=============");
@@ -36,10 +38,7 @@ function handleEvent(event) {
         text: event.message.text,
       });
     }else if(event.type == "beacon"){
-      client.replyMessage(event.replyToken, {
-        type: "text",
-        text: beaconMsg,
-      });
+      console.log("beaconを検知しました");
     }
   }
 
