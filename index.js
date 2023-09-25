@@ -24,6 +24,13 @@ app.post("/", middleware(config), (req, res) => {
   console.log(req.body.events);
   
   console.log("=============ここまで=============");
+
+  //署名を検証して正当なリクエストかどうか確認
+  if (!client.validateSignature(req.body, config.channelSecret)) {
+    return res.status(401).send("Invalid signature");
+  }
+
+  // Promise.allで全てのイベント処理が終わるまで待機
   Promise.all(req.body.events.map(handleEvent)).then((result) =>
     res.json(result)
   );
