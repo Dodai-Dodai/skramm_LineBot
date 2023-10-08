@@ -8,7 +8,7 @@ const config = {
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
   };
   const client = new Client(config);
-  //const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT;
 const app = express();
 
 
