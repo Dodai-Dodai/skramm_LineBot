@@ -49,7 +49,7 @@ app.post("/", (req, res) => {
 app.listen(PORT);
 
 function handleEvent(events) {
-  if (events.type == "message" || events.message.type == "text") {
+  if (events.type == "message" /*|| events.message.type == "text"*/) {
     console.log("テキスト送ったよ");
     client.replyMessage(events.replyToken, {
       type: "text",
