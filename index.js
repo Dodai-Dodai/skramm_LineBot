@@ -25,29 +25,25 @@ app.get('/', (req, res) => res.send('Hello LINE BOT!(GET)'));
 
 // LINEチャネルの署名検証を行うミドルウェアを追加
 app.post('/webhook', (req, res) => {
-  const body = JSON.stringify(req.body);
-  const signature = req.get('X-Line-Signature');
+    const body = JSON.stringify(req.body);
+    const signature = req.get('X-Line-Signature');
 
-  // Verify the signature
-  if (!isValidSignature(body, signature, config.channelSecret)) {
-      console.error('Invalid signature');
-      return res.sendStatus(400);
-  }
+    // Verify the signature
+    if (!isValidSignature(body, signature, config.channelSecret)) {
+        console.error('Invalid signature');
+        return res.sendStatus(400);
+    }
 
-  console.log(req.body);
+    console.log(req.body);
+    console.log(req.body.events);
 
-  // LINEアカウントの検証が成功したことをログに記録
-  console.log('LINEアカウントの検証が成功しました。');
+    // LINEアカウントの検証が成功したことをログに記録
+    console.log('LINEアカウントの検証が成功しました。');
 
-  if (req.body.events) {
-      // メッセージの処理
-      Promise
-          .all(req.body.events.map(handleEvent))
-          .then((result) => res.json(result));
-  } else {
-      console.error('Events not found in the request body');
-      return res.sendStatus(400);
-  }
+    // メッセージの処理
+    Promise
+      .all(req.body.events.map(handleEvent))
+      .then((result) => res.json(result));
 });
 
 // 以下はそのままです
