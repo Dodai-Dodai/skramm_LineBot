@@ -57,11 +57,23 @@ function handleEvent(events) {
     });
   } else if (events.type == "beacon") {
     console.log("beaconを検知しました");
-    client.replyMessage(events.replyToken, {
-      type: "text",
-      text: 'ビーコンを受信しました。' ,// ビーコン受信時のメッセージ
-    });
+    const hwid = event.beacon.hwid; // "hwid" の値を取得
 
+    if (hwid === "017190a280") {
+      // 特定の "hwid" に対する条件分岐
+      console.log("ビーコン017190a280を検知");
+      client.replyMessage(events.replyToken, {
+        type: "text",
+        text: "ビーコンを017190a280を検知しました"
+      });
+    } else if(hwid === "0171c239b0"){
+      // 他の "hwid" に対する条件分岐
+      console.log("ビーコン0171c239b0を検知");
+      client.replyMessage(events.replyToken, {
+        type: "text",
+        text: "ビーコン0171c239b0を検知しました"
+      });
+    }
   }
   else{
     console.log("受信失敗");
