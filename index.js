@@ -26,7 +26,7 @@ app.post("/", (req, res) => {
     return res.status(400).send("Bad Request");
   }
  
-    console.log(イイネイヌ);
+    console.log("イイネイヌ");
   
 
   // The request is verified, proceed with processing
