@@ -25,10 +25,9 @@ app.post("/", (req, res) => {
     console.error("Invalid signature");
     return res.status(400).send("Bad Request");
   }
-  else
-  {
+ 
     console.log(イイネイヌ);
-  }
+  
 
   // The request is verified, proceed with processing
   // リクエスト元のIPアドレスを取得
