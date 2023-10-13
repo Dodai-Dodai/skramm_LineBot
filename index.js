@@ -14,7 +14,7 @@ const app = express();
 
 
 app.post("/", middleware(config), (req, res) => {
-  //リクエスト元のIPアドレスを取得
+  //リクエスト元のIPアドレスを取得ンゴ
   console.log("=============ip=============");
   console.log(req.ip);
   console.log(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
