@@ -34,7 +34,6 @@ app.post('/webhook', (req, res) => {
         return res.sendStatus(400);
     }
 
-    console.log(req.body);
     console.log(req.body.events);
 
     // LINEアカウントの検証が成功したことをログに記録
