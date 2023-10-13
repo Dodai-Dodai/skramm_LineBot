@@ -56,9 +56,9 @@ function handleEvent(event) {
     });
   } else if (event.type == "beacon") {
     console.log("beaconを検知しました");
-    client.replyMessage(event.replyToken, {
-      type: 'text',
-      text: 'ビーコンを受信しました。' // ビーコン受信時のメッセージ
+    return client.replyMessage(event.replyToken, {
+      type: "text",
+      text: "ビーコンを受信しました。" // ビーコン受信時のメッセージ
     });
   }
 }
