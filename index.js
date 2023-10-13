@@ -48,24 +48,24 @@ app.post("/", (req, res) => {
 
 app.listen(PORT);
 
-function handleEvent(event) {
-  // if (event.type == "message" || event.message.type == "text") {
-  //   console.log("テキスト送ったよ");
-  //   client.replyMessage(event.replyToken, {
-  //     type: "text",
-  //     text: event.message.text,
-  //   });
-  // } else if (event.type == "beacon") {
+function handleEvent(events) {
+  if (events.type == "message" || events.message.type == "text") {
+    console.log("テキスト送ったよ");
+    client.replyMessage(events.replyToken, {
+      type: "text",
+      text: events.message.text,
+    });
+  } else if (events.type == "beacon") {
     console.log("beaconを検知しました");
-    client.replyMessage(event.replyToken, {
+    client.replyMessage(events.replyToken, {
       type: "text",
       text: 'ビーコンを受信しました。' ,// ビーコン受信時のメッセージ
     });
 
-  // }
-  // else{
-  //   console.log("受信失敗");
-  // }
+  }
+  else{
+    console.log("受信失敗");
+  }
 }
 
 // Signature verification function
