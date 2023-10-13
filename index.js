@@ -22,11 +22,8 @@ app.post("/", (req, res) => {
   const signature = req.get("x-line-signature");
 
   if (!isValidSignature(body, signature, config.channelSecret)) {
-    // console.log("Invalid signature");
-    // return res.status(400).send("Bad Request");
-    const err = new Error('username is required');
-  err.statusCode = 400;
-  next(err);
+    console.log("Invalid signature");
+    return res.status(400).send("Bad Request");
   }
  
     console.log("イイネイヌ");
@@ -59,6 +56,10 @@ function handleEvent(event) {
     });
   } else if (event.type == "beacon") {
     console.log("beaconを検知しました");
+    return client.replyMessage(event.replyToken, {
+      type: 'text',
+      text: 'ビーコンを受信しました。' // ビーコン受信時のメッセージ
+    });
   }
 }
 
