@@ -57,7 +57,7 @@ function handleEvent(events) {
     });
   } else if (events.type == "beacon") {
     console.log("beaconを検知しました");
-    const hwid = event.beacon.hwid; // "hwid" の値を取得
+    const hwid = events.beacon.hwid; // "hwid" の値を取得
 
     if (hwid === "017190a280") {
       // 特定の "hwid" に対する条件分岐
