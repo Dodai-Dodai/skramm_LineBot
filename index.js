@@ -1,7 +1,9 @@
 import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
+import crypto from "crypto";
 
 const beaconMsg = "ビーコンを検知しました";
+
 const config = {
   channelSecret: process.env.CHANNEL_SECRET,
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
@@ -11,7 +13,20 @@ const client = new Client(config);
 const PORT = parseInt(process.env.PORT) || 3000;
 const app = express();
 
-app.post("/", middleware(config), (req, res) => {
+// Middleware for signature verification
+app.use(middleware(config));
+
+app.post("/", (req, res) => {
+  // Verify the signature
+  const body = JSON.stringify(req.body);
+  const signature = req.get("x-line-signature");
+
+  if (!isValidSignature(body, signature, config.channelSecret)) {
+    console.error("Invalid signature");
+    return res.status(400).send("Bad Request");
+  }
+
+  // The request is verified, proceed with processing
   // リクエスト元のIPアドレスを取得
   console.log("=============ip=============");
   console.log(req.ip);
@@ -30,39 +45,22 @@ app.post("/", middleware(config), (req, res) => {
 
 app.listen(PORT);
 
-async function handleEvent(event) {
+function handleEvent(event) {
   if (event.type == "message" || event.message.type == "text") {
-    // ユーザのプロフィール情報を取得
-    const userId = event.source.userId;
-    const profile = await client.getProfile(userId);
-    const displayName = profile.displayName;
-
-    // プロフィール情報を使用して検証処理を行う
-    if (isLINEAccount(displayName, userId)) {
-      // LINEアカウントとして認識
-      client.replyMessage(event.replyToken, {
-        type: "text",
-        text: "LINEアカウントとして認識されました。",
-      });
-    } else {
-      // LINEアカウントとして認識されない
-      client.replyMessage(event.replyToken, {
-        type: "text",
-        text: "LINEアカウントとして認識されませんでした。",
-      });
-    }
+    client.replyMessage(event.replyToken, {
+      type: "text",
+      text: event.message.text,
+    });
   } else if (event.type == "beacon") {
     console.log("beaconを検知しました");
   }
 }
 
-function isLINEAccount(displayName, userId) {
-  // プロフィール情報を元に検証
-  // ここで特定の条件に合致するかどうかを判定
-  // 例: 特定の表示名やユーザIDを持つユーザをLINEアカウントとして認識
-  if (displayName === "特定の表示名" || userId === "特定のユーザID") {
-    return true;
-  } else {
-    return false;
-  }
+// Signature verification function
+function isValidSignature(body, signature, channelSecret) {
+  const hash = crypto
+    .createHmac("sha256", channelSecret)
+    .update(body)
+    .digest("base64");
+  return hash === signature;
 }
