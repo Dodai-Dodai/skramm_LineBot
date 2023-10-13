@@ -56,7 +56,7 @@ function handleEvent(event) {
     });
   } else if (event.type == "beacon") {
     console.log("beaconを検知しました");
-    return client.replyMessage(event.replyToken, {
+    client.replyMessage(event.replyToken, {
       type: "text",
       text: "ビーコンを受信しました。" // ビーコン受信時のメッセージ
     });
