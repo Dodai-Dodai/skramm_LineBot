@@ -22,7 +22,7 @@ app.post("/", (req, res) => {
   const signature = req.get("x-line-signature");
 
   if (!isValidSignature(body, signature, config.channelSecret)) {
-    console.error("Invalid signature");
+    console.log("Invalid signature");
     return res.status(400).send("Bad Request");
   }
  
