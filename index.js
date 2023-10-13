@@ -50,6 +50,7 @@ app.listen(PORT);
 
 function handleEvent(event) {
   if (event.type == "message" || event.message.type == "text") {
+    console.log("テキスト送ったよ");
     client.replyMessage(event.replyToken, {
       type: "text",
       text: event.message.text,
@@ -58,7 +59,7 @@ function handleEvent(event) {
     console.log("beaconを検知しました");
     client.replyMessage(event.replyToken, {
       type: "text",
-      text: "ビーコンを受信しました。" // ビーコン受信時のメッセージ
+      text: "ビーコンを受信しました。" ,// ビーコン受信時のメッセージ
     });
   }
 }
