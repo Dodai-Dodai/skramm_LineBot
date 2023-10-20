@@ -78,7 +78,7 @@ function handleEvent(event) {
       console.log("2度目です。");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "2度目です。",
+        text: "2度目です。"+ hwid,
       });
     }
   } else {
