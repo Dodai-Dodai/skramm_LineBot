@@ -16,7 +16,7 @@ const app = express();
 // Middleware for signature verification
 app.use(middleware(config));
 
-// ユーザーIDを格納する配列
+// ユーザーIDを格納する配列です
 const notifiedUserIDs = [];
 
 app.post("/", (req, res) => {
