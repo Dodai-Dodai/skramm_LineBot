@@ -16,6 +16,9 @@ const app = express();
 // Middleware for signature verification
 app.use(middleware(config));
 
+// ユーザーIDを格納する配列です
+const notifiedUserIDs = [];
+
 app.post("/", (req, res) => {
   // Verify the signature
   const body = JSON.stringify(req.body);
@@ -25,57 +28,60 @@ app.post("/", (req, res) => {
     console.log("Invalid signature");
     return res.status(400).send("Bad Request");
   }
- 
-    console.log("イイネイヌ");
-  
 
   // The request is verified, proceed with processing
-  // リクエスト元のIPアドレスを取得
-  console.log("=============ip=============");
-  console.log(req.ip);
-  console.log(req.headers["x-forwarded-for"] || req.connection.remoteAddress);
-  console.log("=============req.body=============");
-  console.log(req.body);
+  const events = req.body.events;
   console.log("=============req.body.events=============");
-  console.log(req.body.events);
+  console.log(events);
   console.log("=============ここまで=============");
 
   // Promise.allで全てのイベント処理が終わるまで待機
-  Promise.all(req.body.events.map(handleEvent)).then((result) =>
+  Promise.all(events.map(handleEvent)).then((result) =>
     res.json(result)
   );
 });
 
 app.listen(PORT);
 
-function handleEvent(events) {
-  if (events.type == "message" /*|| events.message.type == "text"*/) {
+function handleEvent(event) {
+  if (event.type === "message") {
     console.log("テキスト送ったよ");
-    client.replyMessage(events.replyToken, {
+    client.replyMessage(event.replyToken, {
       type: "text",
-      text: events.message.text,
+      text: event.message.text,
     });
-  } else if (events.type == "beacon") {
+  } else if (event.type === "beacon") {
     console.log("beaconを検知しました");
-    const hwid = events.beacon.hwid; // "hwid" の値を取得
+    const hwid = event.beacon.hwid;
+    const userID = event.source.userId; // ユーザーIDを取得
 
-    if (hwid === "017190a280") {
-      // 特定の "hwid" に対する条件分岐
+    if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
+      // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
       console.log("ビーコン017190a280を検知");
-      client.replyMessage(events.replyToken, {
+      client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコンを017190a280を検知しました"
+        text: "ビーコンを017190a280を検知しました",
       });
-    } else if(hwid === "0171c239b0"){
-      // 他の "hwid" に対する条件分岐
+      // ユーザーIDを通知済みリストに追加
+      notifiedUserIDs.push(userID);
+    } else if (hwid === "0171c239b0" && notifiedUserIDs.indexOf(userID) === -1) {
+      // 他の "hwid" かつ未通知のユーザーに対する条件分岐
       console.log("ビーコン0171c239b0を検知");
-      client.replyMessage(events.replyToken, {
+      client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコン0171c239b0を検知しました"
+        text: "ビーコン0171c239b0を検知しました",
+      });
+      // ユーザーIDを通知済みリストに追加
+      notifiedUserIDs.push(userID);
+    } else if (notifiedUserIDs.indexOf(userID) !== -1) {
+      // 既に通知済みのユーザーにはメッセージを送信
+      console.log("2度目です。");
+      client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "2度目です。"+ hwid,
       });
     }
-  }
-  else{
+  } else {
     console.log("受信失敗");
   }
 }
