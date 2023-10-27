@@ -1,3 +1,5 @@
+//ログの機能作ります。
+
 import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
