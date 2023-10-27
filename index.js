@@ -14,6 +14,8 @@ const config = {
 const client = new Client(config);
 const PORT = parseInt(process.env.PORT) || 3000;
 const app = express();
+const countMap = {};//カウントを格納するオブジェクト
+const userHwidMap = {};// ユーザーごとに "hwid" を記録するオブジェクト
 
 // Middleware for signature verification
 app.use(middleware(config));
@@ -45,6 +47,34 @@ app.post("/", (req, res) => {
 
 app.listen(PORT);
 
+// IDに紐づけてカウントを増やすハンドラ
+function incrementCount(ID) {
+  if (!countMap[ID]) {
+      countMap[ID] = 1;
+  } else {
+      countMap[ID]++;
+  }
+}
+// IDに紐づけたカウントを取得するハンドラ
+function getCount(ID) {
+  return countMap[ID] || 0;
+}
+
+
+// ユーザーごとに "hwid" を記録する関数
+function recordHwid(ID, hwID) {
+  if (!userHwidMap[ID]) {
+      userHwidMap[ID] = [];
+  }
+  userHwidMap[ID].push(hwID);
+}
+// ユーザーごとに "hwid" を取得する関数
+function getHwid(ID) {
+  return userHwidMap[ID] || [];
+}
+
+
+
 function handleEvent(event) {
   if (event.type === "message") {
     console.log("テキスト送ったよ");
@@ -73,8 +103,9 @@ function handleEvent(event) {
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
-      // ユーザーごとに "hwid" を記録
-      notifiedUserIDs[userID].push(hwid);
+      // ユーザーごとに受信回数を記録
+      incrementCount(userID);
+      recordHwid(userID, hwid);
 
 
     } else if (hwid === "0171c239b0" && notifiedUserIDs.indexOf(userID) === -1) {
@@ -86,24 +117,31 @@ function handleEvent(event) {
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
-      // ユーザーごとに "hwid" を記録
-      notifiedUserIDs[userID].push(hwid);
+      // ユーザーごとに受信回数を記録
+      incrementCount(userID);
+      recordHwid(userID, hwid);
 
 
-    } else if (notifiedUserIDs[userID].indexOf(hwid) !== -1 && notifiedUserIDs.indexOf(userID) !== -1) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) !== hwid && getCount(userID) === 1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
+      //2回目の受信であることを記録
+      incrementCount(userID);
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "2度目です。"+ hwid,
       });
-    }
-    else
-    {
-      console.log("その他");
+    } else if (getHwid(userID) === hwid) {
+      console.log("既に受信済み");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "無効な検知です。"+ hwid,
+        text: "既に受信しています。"+ hwid,
+      });
+    } else {
+      console.log("3回目以上の検知");
+      client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "無効な検知"+ hwid,
       });
     }
   } else {
