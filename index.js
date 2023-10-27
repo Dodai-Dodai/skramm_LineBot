@@ -52,20 +52,31 @@ function handleEvent(event) {
       type: "text",
       text: event.message.text,
     });
+
+  //Beaconを受信したとき
   } else if (event.type === "beacon") {
     console.log("beaconを検知しました");
-    const hwid = event.beacon.hwid;
+    const hwid = event.beacon.hwid; //　ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
+
+      // ユーザーごとに "hwid" を格納するオブジェクトを初期化
+    if (!notifiedUserIDs[userID]) {
+      notifiedUserIDs[userID] = [];
+    }
 
     if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
       // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
       console.log("ビーコン017190a280を検知");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコンを017190a280を検知しました",
+        text: "ビーコン017190a280を検知",
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
+      // ユーザーごとに "hwid" を記録
+      notifiedUserIDs[userID].push(hwid);
+
+
     } else if (hwid === "0171c239b0" && notifiedUserIDs.indexOf(userID) === -1) {
       // 他の "hwid" かつ未通知のユーザーに対する条件分岐
       console.log("ビーコン0171c239b0を検知");
@@ -75,7 +86,11 @@ function handleEvent(event) {
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
-    } else if (notifiedUserIDs.indexOf(userID) !== -1) {
+      // ユーザーごとに "hwid" を記録
+      notifiedUserIDs[userID].push(hwid);
+
+
+    } else if (notifiedUserIDs[userID].indexOf(userID) !== hwid && notifiedUserIDs.indexOf(userID) !== -1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       client.replyMessage(event.replyToken, {
