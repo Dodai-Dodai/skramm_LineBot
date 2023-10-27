@@ -5,6 +5,7 @@ on:
     branches: 
       - main
       - mtp
+      - dev-logging
 
 jobs:
   build-and-push:
