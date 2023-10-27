@@ -89,11 +89,6 @@ function handleEvent(event) {
     const hwid = event.beacon.hwid; //　ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
 
-      // ユーザーごとに "hwid" を格納するオブジェクトを初期化
-    if (!notifiedUserIDs[userID]) {
-      notifiedUserIDs[userID] = [];
-    }
-
     if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
       // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
       console.log("ビーコン017190a280を検知");
