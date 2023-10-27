@@ -90,7 +90,7 @@ function handleEvent(event) {
       notifiedUserIDs[userID].push(hwid);
 
 
-    } else if (notifiedUserIDs[userID].indexOf(hwid) !== hwid && notifiedUserIDs.indexOf(userID) !== -1) {
+    } else if (notifiedUserIDs[userID].indexOf(hwid) !== -1 && notifiedUserIDs.indexOf(userID) !== -1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       client.replyMessage(event.replyToken, {
