@@ -119,7 +119,7 @@ function handleEvent(event) {
       recordHwid(userID, hwid);
 
 
-    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) === hwid && getCount(userID) === 2) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) === hwid && getCount(userID) === 1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
