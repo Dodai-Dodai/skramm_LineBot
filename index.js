@@ -48,29 +48,29 @@ app.post("/", (req, res) => {
 app.listen(PORT);
 
 // IDに紐づけてカウントを増やすハンドラ
-function incrementCount(ID) {
-  if (!countMap[ID]) {
-      countMap[ID] = 1;
+function incrementCount(userID) {
+  if (!countMap[userID]) {
+      countMap[userID] = 1;
   } else {
-      countMap[ID]++;
+      countMap[userID]++;
   }
 }
 // IDに紐づけたカウントを取得するハンドラ
-function getCount(ID) {
-  return countMap[ID] || 0;
+function getCount(userID) {
+  return countMap[userID] || 0;
 }
 
 
 // ユーザーごとに "hwid" を記録する関数
-function recordHwid(ID, hwID) {
-  if (!userHwidMap[ID]) {
-      userHwidMap[ID] = [];
+function recordHwid(userID, hwid) {
+  if (!userHwidMap[userID]) {
+      userHwidMap[userID] = [];
   }
-  userHwidMap[ID].push(hwID);
+  userHwidMap[userID].push(hwid);
 }
 // ユーザーごとに "hwid" を取得する関数
-function getHwid(ID) {
-  return userHwidMap[ID] || [];
+function getHwid(userID) {
+  return userHwidMap[userID] || [];
 }
 
 
@@ -119,7 +119,7 @@ function handleEvent(event) {
       recordHwid(userID, hwid);
 
 
-    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) === hwid && getCount(userID) === 1) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) != hwid && getCount(userID) == 1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
@@ -129,7 +129,7 @@ function handleEvent(event) {
         type: "text",
         text: "2度目です。"+ hwid,
       });
-    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) !== hwid) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) == hwid) {
       console.log("既に受信済み");
       client.replyMessage(event.replyToken, {
         type: "text",
