@@ -50,7 +50,7 @@ app.listen(PORT);
 // IDに紐づけてカウントを増やすハンドラ
 function incrementCount(ID) {
   if (!countMap[ID]) {
-      countMap[ID] = 1;
+      countMap[ID] = 0;
   } else {
       countMap[ID]++;
   }
@@ -70,7 +70,7 @@ function recordHwid(ID, hwID) {
 }
 // ユーザーごとに "hwid" を取得する関数
 function getHwid(ID) {
-  return userHwidMap[ID] || [];
+  return userHwidMap[userID] || [];
 }
 
 
@@ -131,7 +131,7 @@ function handleEvent(event) {
         type: "text",
         text: "2度目です。"+ hwid,
       });
-    } else if (getHwid(userID) === hwid) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) === hwid) {
       console.log("既に受信済み");
       client.replyMessage(event.replyToken, {
         type: "text",
