@@ -18,7 +18,7 @@ const app = express();
 // Middleware for signature verification
 app.use(middleware(config));
 
-// ユーザーIDを格納する配列です
+// ユーザーIDを格納する配列
 const notifiedUserIDs = [];
 
 app.post("/", (req, res) => {
@@ -82,7 +82,7 @@ function handleEvent(event) {
       console.log("ビーコン0171c239b0を検知");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコン0171c239b0を検知しました",
+        text: "ビーコン0171c239b0を検知",
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
@@ -90,7 +90,7 @@ function handleEvent(event) {
       notifiedUserIDs[userID].push(hwid);
 
 
-    } else if (notifiedUserIDs[userID].indexOf(userID) !== hwid && notifiedUserIDs.indexOf(userID) !== -1) {
+    } else if (notifiedUserIDs[userID].indexOf(hwid) !== hwid && notifiedUserIDs.indexOf(userID) !== -1) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       client.replyMessage(event.replyToken, {
