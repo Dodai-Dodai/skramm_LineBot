@@ -70,7 +70,7 @@ function recordHwid(ID, hwID) {
 }
 // ユーザーごとに "hwid" を取得する関数
 function getHwid(ID) {
-  return userHwidMap[userID] || [];
+  return userHwidMap[ID] || [];
 }
 
 
