@@ -126,7 +126,7 @@ function handleEvent(event) {
         type: "text",
         text: "2度目です。"+ hwid,
       });
-    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) === hwid) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) !== hwid) {
       console.log("既に受信済み");
       client.replyMessage(event.replyToken, {
         type: "text",
