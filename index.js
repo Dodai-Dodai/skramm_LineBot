@@ -100,6 +100,7 @@ function handleEvent(event) {
       notifiedUserIDs.push(userID);
       // ユーザーごとに受信回数を記録
       incrementCount(userID);
+      console.log(getCount(userID));
       recordHwid(userID, hwid);
 
 
@@ -114,6 +115,7 @@ function handleEvent(event) {
       notifiedUserIDs.push(userID);
       // ユーザーごとに受信回数を記録
       incrementCount(userID);
+      console.log(getCount(userID));
       recordHwid(userID, hwid);
 
 
@@ -122,6 +124,7 @@ function handleEvent(event) {
       console.log("2度目です。");
       //2回目の受信であることを記録
       incrementCount(userID)
+      console.log(getCount(userID));
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "2度目です。"+ hwid,
