@@ -1,4 +1,4 @@
-//ログの機能作ります。
+//ログの機能じゃないです。hwidをユーザIDに紐づけて記録して1回目と2回目のBeacon受信をより正確にする
 
 import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
@@ -96,6 +96,14 @@ function handleEvent(event) {
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "2度目です。"+ hwid,
+      });
+    }
+    else
+    {
+      console.log("その他");
+      client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "無効な検知です。"+ hwid,
       });
     }
   } else {
