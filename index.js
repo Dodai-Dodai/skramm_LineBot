@@ -73,6 +73,15 @@ function getHwid(userID) {
   return userHwidMap[userID] || [];
 }
 
+//タイムスタンプを比較して設定した時間以上経過しているかどうかをチェックする
+function isTimestampExpired(timestamp) {
+  const currentTime = Date.now(); // 現在の時刻を取得（ミリ秒単位）
+  const tenMinutesInMillis = 10 * 60 * 1000; // 10分をミリ秒単位に変換
+
+  return currentTime - timestamp > tenMinutesInMillis;
+}
+
+
 
 
 function handleEvent(event) {
@@ -88,6 +97,23 @@ function handleEvent(event) {
     console.log("beaconを検知しました");
     const hwid = event.beacon.hwid; //　ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
+    const time = event.timestamp;//タイムスタンプを取得
+
+    //設定した時間以上経過している場合、初期化を行う。
+    if (isTimestampExpired(timestamp)) {
+      // timestampが10分以上経過している場合、初期化を行う
+      console.log("Timestampが10分以上経過しています。初期化を行います。");
+
+      // ここで特定のユーザーに関連する情報を初期化するコードを追加する
+      countMap[userID] = 0; // カウントを初期化
+      userHwidMap[userID] = []; // "hwid" 関連の情報を初期化
+
+      // ユーザーIDを通知済みリストから削除
+      const index = notifiedUserIDs.indexOf(userID);
+      if (index !== -1) {
+        notifiedUserIDs.splice(index, 1);
+      }
+    }
 
     if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
       // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
