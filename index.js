@@ -50,7 +50,7 @@ app.listen(PORT);
 // IDに紐づけてカウントを増やすハンドラ
 function incrementCount(ID) {
   if (!countMap[ID]) {
-      countMap[ID] = 0;
+      countMap[ID] = 1;
   } else {
       countMap[ID]++;
   }
@@ -117,7 +117,7 @@ function handleEvent(event) {
       recordHwid(userID, hwid);
 
 
-    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) !== hwid && getCount(userID) === 1) {
+    } else if (notifiedUserIDs.indexOf(userID) !== -1 && getHwid(userID) !== hwid && getCount(userID) === 3) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
