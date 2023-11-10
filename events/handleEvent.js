@@ -1,4 +1,4 @@
-// handleEvent.js
+// events/handleEvent.js
 
 import { isTimestampExpired } from "./isTimestampExpired.js";
 import { incrementCount } from "./incrementCount.js";
@@ -6,13 +6,7 @@ import { getCount } from "./getCount.js";
 import { recordHwid } from "./recordHwid.js";
 import { getHwid } from "./getHwid.js";
 
-export function handleEvent(
-  event,
-  countMap,
-  userHwidMap,
-  notifiedUserIDs,
-  client
-) {
+export const handleEvent = (event) => {
   if (event.type === "message") {
     console.log("テキスト送ったよ");
     client.replyMessage(event.replyToken, {
@@ -100,4 +94,4 @@ export function handleEvent(
   } else {
     console.log("受信失敗");
   }
-}
+};
