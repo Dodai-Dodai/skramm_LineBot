@@ -154,7 +154,7 @@ function handleEvent(event) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
-      incrementCount(userID)
+      incrementCount(countMap,userID);
       console.log(getCount(userID));
       client.replyMessage(event.replyToken, {
         type: "text",
