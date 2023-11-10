@@ -143,7 +143,7 @@ function handleEvent(event) {
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
       // ユーザーごとに受信回数を記録
-      incrementCount(userID);
+      incrementCount(userID,countMap);
       console.log(getCount(userID));
       recordHwid(userID, hwid);
 
@@ -152,7 +152,7 @@ function handleEvent(event) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
-      incrementCount(userID)
+      incrementCount(userID,countMap)
       console.log(getCount(userID));
       client.replyMessage(event.replyToken, {
         type: "text",
