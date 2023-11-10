@@ -4,7 +4,7 @@ import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
 
-//各イベントごとの処理をするファイルの読み込み
+//各イベントごとの処理をするファイルの読み込みをする
 import incrementCount from './events/incrementCount.js'
 
 const beaconMsg = "ビーコンを検知しました";
