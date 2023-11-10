@@ -1,8 +1,11 @@
-// IDに紐づけてカウントを増やすハンドラ
-function incrementCount(countM,userID) {
-    if (!countM[userID]) {
-        countM[userID] = 1;
+// incrementCount.js
+function incrementCount(userID, countMap) {
+    if (!countMap[userID]) {
+      countMap[userID] = 1;
     } else {
-        countM[userID]++;
+      countMap[userID]++;
     }
   }
+  
+  export default incrementCount;
+  
