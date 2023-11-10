@@ -6,7 +6,7 @@ import { getCount } from "./getCount.js";
 import { recordHwid } from "./recordHwid.js";
 import { getHwid } from "./getHwid.js";
 
-export const handleEvent = (event) => {
+export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, client) => {
   if (event.type === "message") {
     console.log("テキスト送ったよ");
     client.replyMessage(event.replyToken, {
