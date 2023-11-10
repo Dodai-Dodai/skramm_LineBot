@@ -51,13 +51,13 @@ app.post("/", (req, res) => {
 app.listen(PORT);
 
 // IDに紐づけてカウントを増やすハンドラ
-function incrementCount(userID) {
-  if (!countMap[userID]) {
-      countMap[userID] = 1;
-  } else {
-      countMap[userID]++;
-  }
-}
+// function incrementCount(userID) {
+//   if (!countMap[userID]) {
+//       countMap[userID] = 1;
+//   } else {
+//       countMap[userID]++;
+//   }
+// }
 // IDに紐づけたカウントを取得するハンドラ
 function getCount(userID) {
   return countMap[userID] || 0;
