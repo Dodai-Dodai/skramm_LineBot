@@ -4,6 +4,9 @@ import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
 
+//各イベントごとの処理をするファイルの読み込み
+import incrementCount from './events/incrementCount.js'
+
 const beaconMsg = "ビーコンを検知しました";
 
 const config = {
@@ -48,13 +51,15 @@ app.post("/", (req, res) => {
 app.listen(PORT);
 
 // IDに紐づけてカウントを増やすハンドラ
-function incrementCount(userID) {
-  if (!countMap[userID]) {
-      countMap[userID] = 1;
-  } else {
-      countMap[userID]++;
-  }
-}
+// function incrementCount(userID) {
+//   if (!countMap[userID]) {
+//       countMap[userID] = 1;
+//   } else {
+//       countMap[userID]++;
+//   }
+// }
+incrementCount(countMap,userID);
+
 // IDに紐づけたカウントを取得するハンドラ
 function getCount(userID) {
   return countMap[userID] || 0;
@@ -97,7 +102,7 @@ function handleEvent(event) {
     console.log("beaconを検知しました");
     const hwid = event.beacon.hwid; //　ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
-    const time = event.timestamp;//タイムスタンプを取得
+    const time = event.timestamp;//タイムスタンプを取得する
 
     //設定した時間以上経過している場合、初期化を行う。
     if (isTimestampExpired(timestamp)) {
