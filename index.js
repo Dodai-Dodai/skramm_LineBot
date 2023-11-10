@@ -10,6 +10,7 @@ import { getCount } from "./events/getCount.js";
 import { recordHwid } from "./events/recordHwid.js";
 import { getHwid } from "./events/getHwid.js";
 import { isTimestampExpired } from "./events/isTimestampExpired.js";
+import { isValidSignature } from "./events/isValidSignature.js";
 // import { handleEvent } from "./events/handleEvent.js";
 
 
@@ -146,10 +147,10 @@ function handleEvent(event) {
 }
 
 // Signature verification function
-function isValidSignature(body, signature, channelSecret) {
-  const hash = crypto
-    .createHmac("sha256", channelSecret)
-    .update(body)
-    .digest("base64");
-  return hash === signature;
-}
+// function isValidSignature(body, signature, channelSecret) {
+//   const hash = crypto
+//     .createHmac("sha256", channelSecret)
+//     .update(body)
+//     .digest("base64");
+//   return hash === signature;
+// }
