@@ -5,7 +5,7 @@ import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
 
 //各イベント読み込み
-//import incrementCount from "events/incrementCount.js";
+import { incrementCount } from "./events/incrementCount.js"; // モジュールのインポート
 
 const beaconMsg = "ビーコンを検知しました";
 
@@ -51,13 +51,13 @@ app.post("/", (req, res) => {
 app.listen(PORT);
 
 // IDに紐づけてカウントを増やすハンドラ
-function incrementCount(userID) {
-  if (!countMap[userID]) {
-      countMap[userID] = 1;
-  } else {
-      countMap[userID]++;
-  }
-}
+// function incrementCount(userID) {
+//   if (!countMap[userID]) {
+//       countMap[userID] = 1;
+//   } else {
+//       countMap[userID]++;
+//   }
+// }
 // IDに紐づけたカウントを取得するハンドラ
 function getCount(userID) {
   return countMap[userID] || 0;
@@ -128,7 +128,7 @@ function handleEvent(event) {
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
       // ユーザーごとに受信回数を記録
-      incrementCount(userID);
+      incrementCount(countMap,userID);
       console.log(getCount(userID));
       recordHwid(userID, hwid);
 
@@ -143,7 +143,7 @@ function handleEvent(event) {
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
       // ユーザーごとに受信回数を記録
-      incrementCount(userID);
+      incrementCount(countMap,userID);
       console.log(getCount(userID));
       recordHwid(userID, hwid);
 
@@ -152,7 +152,7 @@ function handleEvent(event) {
       // 既に通知済みのユーザーにはメッセージを送信
       console.log("2度目です。");
       //2回目の受信であることを記録
-      incrementCount(userID);
+      incrementCount(countMap,userID);
       console.log(getCount(userID));
       client.replyMessage(event.replyToken, {
         type: "text",

@@ -1,11 +1,9 @@
 // incrementCount.js
-function incrementCount(userID, countMap) {
-    if (!countMap[userID]) {
-      countMap[userID] = 1;
-    } else {
-      countMap[userID]++;
-    }
+
+export function incrementCount(countMap, userID) {
+  if (!countMap[userID]) {
+    countMap[userID] = 1;
+  } else {
+    countMap[userID]++;
   }
-  
-  export default incrementCount;
-  
+}
