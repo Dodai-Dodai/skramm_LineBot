@@ -2,10 +2,10 @@
 
 import express from "express";
 import { Client, middleware } from "@line/bot-sdk";
+import crypto from "crypto";
 
 //イベント読み込み
 import { handleEvent } from "./events/handleEvent.js";
-import { isValidSignature } from "./events/isValidSignature.js";
 
 const config = {
   channelSecret: process.env.CHANNEL_SECRET,
@@ -47,3 +47,12 @@ app.post("/", (req, res) => {
 });
 
 app.listen(PORT);
+
+// Signature verification function
+function isValidSignature(body, signature, channelSecret) {
+  const hash = crypto
+    .createHmac("sha256", channelSecret)
+    .update(body)
+    .digest("base64");
+  return hash === signature;
+}
