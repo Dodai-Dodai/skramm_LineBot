@@ -10,7 +10,7 @@ import { getCount } from "./events/getCount.js";
 import { recordHwid } from "./events/recordHwid.js";
 import { getHwid } from "./events/getHwid.js";
 import { isTimestampExpired } from "./events/isTimestampExpired.js";
-import { handleEvent } from "./events/handleEvent.js";
+// import { handleEvent } from "./events/handleEvent.js";
 
 
 const beaconMsg = "ビーコンを検知しました";
