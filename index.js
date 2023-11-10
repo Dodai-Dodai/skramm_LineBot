@@ -5,7 +5,7 @@ import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
 
 //各イベント読み込み
-import incrementCount from "./events/incrementCount.js";
+import incrementCount from "events/incrementCount.js";
 
 const beaconMsg = "ビーコンを検知しました";
 
