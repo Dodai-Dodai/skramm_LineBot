@@ -6,6 +6,7 @@ on:
       - main
       - mtp
       - dev-logging
+      - Refactoring01
 
 jobs:
   build-and-push:
