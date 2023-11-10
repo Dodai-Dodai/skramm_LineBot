@@ -5,7 +5,7 @@ import { Client, middleware } from "@line/bot-sdk";
 
 //イベント読み込み
 import { handleEvent } from "./events/handleEvent.js";
-import { isValidSignature } from "./isValidSignature.js";
+import { isValidSignature } from "./events/isValidSignature.js";
 
 const config = {
   channelSecret: process.env.CHANNEL_SECRET,
