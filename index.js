@@ -100,7 +100,7 @@ function handleEvent(event) {
     console.log("beaconを検知しました");
     const hwid = event.beacon.hwid; //　ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
-    const time = event.timestamp;//タイムスタンプを取得
+    const timestamp = event.timestamp;//タイムスタンプを取得
 
     //設定した時間以上経過している場合、初期化を行う。
     if (isTimestampExpired(timestamp)) {
