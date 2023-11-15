@@ -14,11 +14,5 @@ export function logger(message, severity) {
         message: message,
     };
 
-    //messageがテキストかオブジェクトかで処理を分岐
-    if (typeof message === "string") {
-        console.log(JSON.stringify(entry));
-    }
-    else {
-        console.log(JSON.stringify(entry));
-    }
+    console.log(JSON.stringify(entry));
 }
