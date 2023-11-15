@@ -5,6 +5,8 @@ import { Client, middleware } from "@line/bot-sdk";
 import crypto from "crypto";
 import { handleEvent } from "./events/handleEvent.js";
 import { isValidSignature } from "./events/isValidSignature.js";
+import { logger } from "./logger/logging.js";
+import e from "express";
 
 const beaconMsg = "ビーコンを検知しました";
 
@@ -31,15 +33,19 @@ app.post("/", (req, res) => {
   const signature = req.get("x-line-signature");
 
   if (!isValidSignature(body, signature, config.channelSecret)) {
-    console.log("Invalid signature");
+    //console.log("Invalid signature");
+    logger("Invalid signature", "ERROR");
     return res.status(400).send("Bad Request");
   }
 
   // The request is verified, proceed with processing
   const events = req.body.events;
-  console.log("=============req.body.events=============");
-  console.log(events);
-  console.log("=============ここまで=============");
+  /*
+  * console.log("=============req.body.events=============");
+  * console.log(events);
+  * console.log("=============ここまで=============");
+  */
+  logger(events, "INFO");
 
   // Promise.allで全てのイベント処理が終わるまで待機
   Promise.all(events.map((event) => handleEvent(event, countMap, userHwidMap, notifiedUserIDs, client))).then((result) =>
