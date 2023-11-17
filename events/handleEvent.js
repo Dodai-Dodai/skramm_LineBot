@@ -10,14 +10,14 @@ import { logger } from "../logger/logging.js";
 export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, client) => {
   if (event.type === "message") {
     // console.log("テキスト送ったよ");
-    logger("event.typeがmessageのためテキストを送信", "INFO");
+    logger("event.typeがmessageのためテキストを送信", "DEBUG");
     client.replyMessage(event.replyToken, {
       type: "text",
       text: event.message.text,
     });
   } else if (event.type === "beacon") {
     // console.log("beaconを検知しました");
-    logger("event.typeがbeaconのためbeaconを検知", "INFO");
+    logger("event.typeがbeaconのためbeaconを検知", "DEBUG");
     const hwid = event.beacon.hwid; // ハードウェアIDを取得
     const userID = event.source.userId; // ユーザーIDを取得
     const timestamp = event.timestamp; // タイムスタンプを取得
@@ -42,7 +42,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
       // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
       //console.log("ビーコン017190a280を検知");
-      logger("ビーコン017190a280を検知", "INFO");
+      logger("ビーコン017190a280を検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "ビーコン017190a280を検知",
@@ -57,7 +57,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     } else if (hwid === "0171c239b0" && notifiedUserIDs.indexOf(userID) === -1) {
       // 他の "hwid" かつ未通知のユーザーに対する条件分岐
       //console.log("ビーコン0171c239b0を検知");
-      logger("ビーコン0171c239b0を検知", "INFO");
+      logger("ビーコン0171c239b0を検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "ビーコン0171c239b0を検知",
@@ -76,7 +76,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     ) {
       // 既に通知済みのユーザーにはメッセージを送信
       //console.log("2度目です。");
-      logger("2度目です。", "INFO");
+      logger("2度目です。", "DEBUG");
       // 2回目の受信であることを記録
       incrementCount(countMap, userID);
       //console.log(getCount(countMap, userID));
@@ -90,14 +90,14 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       getHwid(userHwidMap, userID) == hwid
     ) {
       //console.log("既に受信済み");
-      logger("既に受信済み", "INFO");
+      logger("既に受信済み", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "既に受信しています。" + hwid,
       });
     } else {
       //console.log("3回目以上の検知");
-      logger("3回目以上の検知", "INFO");
+      logger("3回目以上の検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
         text: "無効な検知" + hwid,
@@ -105,6 +105,6 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     }
   } else {
     //console.log("受信失敗");
-    logger("受信失敗", "INFO");
+    logger("受信失敗", "ERROR");
   }
 };
