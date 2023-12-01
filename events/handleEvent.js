@@ -22,7 +22,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     const userID = event.source.userId; // ユーザーIDを取得
     const timestamp = event.timestamp; // タイムスタンプを取得
 
-    // 設定した時間以上経過している場合、初期化を行う。
+    // 設定した時間以上経過している場合、初期化を行う
     if (isTimestampExpired(timestamp)) {
       // timestampが10分以上経過している場合、初期化を行う
       //console.log("Timestampが10分以上経過しています。初期化を行います。");
@@ -30,7 +30,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
 
       // ここで特定のユーザーに関連する情報を初期化するコードを追加する
       countMap[userID] = 0; // カウントを初期化
-      userHwidMap[userID] = []; // "hwid" 関連の情報を初期化
+      userHwidMap[userID] = []; // "hwid" 関連の情報を初期化する
 
       // ユーザーIDを通知済みリストから削除
       const index = notifiedUserIDs.indexOf(userID);
@@ -39,7 +39,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       }
     }
 
-    if (hwid === "017190a280" && notifiedUserIDs.indexOf(userID) === -1) {
+    if (hwid === process.env.HWID2 && notifiedUserIDs.indexOf(userID) === -1) {
       // 特定の "hwid" かつ未通知のユーザーに対する条件分岐
       //console.log("ビーコン017190a280を検知");
       logger("ビーコン017190a280を検知", "DEBUG");
@@ -54,7 +54,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       //console.log(getCount(countMap, userID));
       logger(getCount(countMap, userID), "INFO");
       recordHwid(userHwidMap, userID, hwid);
-    } else if (hwid === "0171c239b0" && notifiedUserIDs.indexOf(userID) === -1) {
+    } else if (hwid === process.env.HWID1 && notifiedUserIDs.indexOf(userID) === -1) {
       // 他の "hwid" かつ未通知のユーザーに対する条件分岐
       //console.log("ビーコン0171c239b0を検知");
       logger("ビーコン0171c239b0を検知", "DEBUG");
