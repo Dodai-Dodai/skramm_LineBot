@@ -22,7 +22,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
     const userID = event.source.userId; // ユーザーIDを取得
     const timestamp = event.timestamp; // タイムスタンプを取得
 
-    // 設定した時間以上経過している場合、初期化を行う。
+    // 設定した時間以上経過している場合、初期化を行う
     if (isTimestampExpired(timestamp)) {
       // timestampが10分以上経過している場合、初期化を行う
       //console.log("Timestampが10分以上経過しています。初期化を行います。");
