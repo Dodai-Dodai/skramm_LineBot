@@ -8,6 +8,7 @@ on:
       - dev-logging
       - Refactoring01
       - toLogger
+      - toHideHwid
   workflow_dispatch:
 
 jobs:
