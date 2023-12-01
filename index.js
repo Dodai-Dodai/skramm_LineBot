@@ -43,7 +43,7 @@ app.post("/", (req, res) => {
   /*
   * console.log("=============req.body.events=============");
   * console.log(events);
-  * console.log("=============ここまで=============");
+  * console.log("=============いつもここまで=============");
   */
   logger(events, "INFO");
 
