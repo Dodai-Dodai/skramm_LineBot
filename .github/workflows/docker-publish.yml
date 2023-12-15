@@ -9,6 +9,7 @@ on:
       - Refactoring01
       - toLogger
       - toHideHwid
+      - message
   workflow_dispatch:
 
 jobs:

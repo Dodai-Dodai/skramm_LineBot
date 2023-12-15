@@ -45,7 +45,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       logger("ビーコン017190a280を検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコン017190a280を検知",
+        text: "1個前のバス停を通過しました。枚方市駅まで乗車すると、乗車証明が発行されます。",
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
@@ -60,7 +60,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       logger("ビーコン0171c239b0を検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "ビーコン0171c239b0を検知",
+        text: "1個前のバス停を通過しました。枚方市駅まで乗車すると、乗車証明が発行されます。",
       });
       // ユーザーIDを通知済みリストに追加
       notifiedUserIDs.push(userID);
@@ -83,7 +83,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       logger(getCount(countMap, userID), "INFO");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "2度目です。" + hwid,
+        text: "乗車証明が取れました。",
       });
     } else if (
       notifiedUserIDs.indexOf(userID) !== -1 &&
@@ -93,14 +93,14 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       logger("既に受信済み", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "既に受信しています。" + hwid,
+        text: "本日はこれ以上乗車証明が発行できません。",
       });
     } else {
       //console.log("3回目以上の検知");
       logger("3回目以上の検知", "DEBUG");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "無効な検知" + hwid,
+        text: "本日はこれ以上乗車証明が発行できません。",
       });
     }
   } else {
