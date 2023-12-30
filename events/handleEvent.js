@@ -9,12 +9,20 @@ import { logger } from "../logger/logging.js";
 
 export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, client) => {
   if (event.type === "message") {
-    // console.log("テキスト送ったよ");
-    logger("event.typeがmessageのためテキストを送信", "DEBUG");
-    client.replyMessage(event.replyToken, {
-      type: "text",
-      text: event.message.text,
-    });
+    if (event.message.text === "store\nで買い物をしました。") {
+      logger("買い物をしました。", "INFO");
+      client.replyMessage(event.replyToken, {
+        type: "text",
+        text: "買い物をしました。ポイントを付与します。"
+      });
+    } else {
+      // console.log("テキスト送ったよ");
+      logger("event.typeがmessageのためテキストを送信", "DEBUG");
+      client.replyMessage(event.replyToken, {
+        type: "text",
+        text: event.message.text,
+      });
+    }
   } else if (event.type === "beacon") {
     // console.log("beaconを検知しました");
     logger("event.typeがbeaconのためbeaconを検知", "DEBUG");
