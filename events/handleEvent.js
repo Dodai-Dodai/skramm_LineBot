@@ -13,7 +13,7 @@ export const handleEvent = (event, countMap, userHwidMap, notifiedUserIDs, clien
       logger("買い物をしました。", "INFO");
       client.replyMessage(event.replyToken, {
         type: "text",
-        text: "買い物をしました。"
+        text: "買い物をしました。ポイントを付与します。"
       });
     } else {
       // console.log("テキスト送ったよ");
