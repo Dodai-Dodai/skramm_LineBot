@@ -2,7 +2,7 @@
 
 ## 概要
 
-ソーシャル・イノベーションチャレンジ2023(https://www.oit.ac.jp/is/msl/soichalle/)で開発した成果物のうち、LINE Botのプログラム
+ソーシャル・イノベーションチャレンジ2023( https://www.oit.ac.jp/is/msl/soichalle/ )で開発した成果物のうち、LINE Botのプログラム
 
 ## 説明
 
